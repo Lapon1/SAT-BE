@@ -1,9 +1,7 @@
-package com.lapon.app.service.register;
+package com.lapon.app.repository;
 
 import com.lapon.app.model.RegisterModel;
 
-public interface RegisterService {
-
+public interface RegisterRepository {
 	public Long insert(RegisterModel form)throws Exception;
-	
 }
