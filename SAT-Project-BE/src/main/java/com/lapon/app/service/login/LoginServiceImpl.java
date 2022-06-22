@@ -8,6 +8,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lapon.app.core.exception.Exception1001;
 import com.lapon.app.model.RegisterModel;
 import com.lapon.app.repository.LoginRepository;
 
@@ -28,7 +29,7 @@ public class LoginServiceImpl implements LoginService {
 			return new RegisterModel();
 		} catch (DataAccessException e) {
 			logger.error(" error dataAcess", e);
-			throw new RuntimeException(e.getMessage());
+			throw new Exception1001(e.getMessage());
 		} catch (Exception e) {
 			logger.error(" error ", e);
 			throw new RuntimeException(e.getMessage());
