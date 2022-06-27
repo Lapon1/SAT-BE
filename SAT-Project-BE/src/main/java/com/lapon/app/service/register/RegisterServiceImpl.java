@@ -20,7 +20,7 @@ public class RegisterServiceImpl implements RegisterService {
 	public RegisterRepository registerRepository;
 
 	@Override
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = false, rollbackFor = { Exception.class })
 	public Long insert(RegisterModel form) throws Exception {
 		try {
 			return registerRepository.insert(form);

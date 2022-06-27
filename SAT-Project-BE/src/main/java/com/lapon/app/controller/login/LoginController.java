@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.lapon.app.core.controller.ResponseController;
 import com.lapon.app.model.RegisterModel;
 import com.lapon.app.service.login.LoginService;
 
 @RestController
 @RequestMapping("/login")
-public class LoginController {
+public class LoginController extends ResponseController {
 
 	@Autowired
 	LoginService loginService;
@@ -24,6 +25,9 @@ public class LoginController {
 			@RequestBody RegisterModel input) throws Exception {
 		RegisterModel RegisModel = new RegisterModel();
 		RegisModel = loginService.verify(input);
+
+		// String a = RegisModel.getFname()!=null ? "true" : "false";
+//		RegisterModel g = testGeneric(RegisModel);
 
 		return RegisModel;
 

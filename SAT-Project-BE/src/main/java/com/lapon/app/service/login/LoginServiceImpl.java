@@ -19,7 +19,7 @@ public class LoginServiceImpl implements LoginService {
 	LoginRepository loginRepository;
 
 	@Override
-	@Transactional(readOnly = true)
+	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public RegisterModel verify(RegisterModel input) throws Exception {
 
 		try {
