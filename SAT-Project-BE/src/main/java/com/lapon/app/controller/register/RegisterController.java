@@ -1,20 +1,43 @@
 package com.lapon.app.controller.register;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.util.IOUtils;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,11 +48,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JacksonInject.Value;
 import com.lapon.app.model.DownloadModel;
 import com.lapon.app.model.RegisterModel;
 import com.lapon.app.service.download.DownloadService;
 import com.lapon.app.service.register.RegisterService;
-import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/register")
@@ -40,6 +63,9 @@ public class RegisterController {
 
 	@Autowired
 	public DownloadService downloadService;
+
+	private XSSFSheet sheet;
+	private XSSFWorkbook workbook;
 
 	@PostMapping(value = "/insert")
 	public Long RegisterOnCreate(HttpServletRequest request, HttpServletResponse response,
@@ -74,26 +100,63 @@ public class RegisterController {
 	}
 
 	@PostMapping("/download")
-	public ResponseEntity<ByteArrayResource> download(HttpServletRequest request, HttpServletResponse response,
+	public String download(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody DownloadModel downloadModel) throws Exception {
 		DownloadModel pathFile = downloadService.findDownName(downloadModel.getId());
-		File file = new File(pathFile.getPathname());
-		Path path = Paths.get(file.getAbsolutePath());
-		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
 
-		HttpHeaders header = new HttpHeaders();
-		header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + "test");
-		
-	    return ResponseEntity.ok().headers(header).
-	            contentLength(file.length())
-	            .contentType(MediaType.
-	                  parseMediaType("application/octet-stream")).
-	            body(resource);
-		// InputStreamResource resource = new InputStreamResource(new
-		// FileInputStream(file));
-		// String text = "success";
-		// return file;
+		workbook = new XSSFWorkbook();
+		sheet = workbook.createSheet("Ripon");
+		XSSFRow row = sheet.createRow(0);
+		XSSFCellStyle cellStyle = workbook.createCellStyle();
+		XSSFFont font = workbook.createFont();
+		font.setBold(true);
+		font.setFontHeight(16);
+		cellStyle.setFont(font);
+
+		createCell(row, 0, "ID", cellStyle);
+		createCell(row, 1, "Name", cellStyle);
+
+		FileOutputStream fileOut = new FileOutputStream(pathFile.getPathname());
+		workbook.write(fileOut);
+		fileOut.close();
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		workbook.write(outputStream);
+		String res = Base64.getEncoder().encodeToString(outputStream.toByteArray());
+		workbook.close();
+
+		return res;
 
 	}
+
+	private void createCell(XSSFRow row, int collumnIndex, Object value, XSSFCellStyle cellStyle) {
+		XSSFCell cell = row.createCell(collumnIndex);
+		sheet.autoSizeColumn(collumnIndex);
+		if (value instanceof Integer) {
+			cell.setCellValue((Integer) value);
+		} else if (value instanceof Boolean) {
+			cell.setCellValue((Boolean) value);
+		} else {
+			cell.setCellValue((String) value);
+		}
+		cell.setCellStyle(cellStyle);
+	}
+
+
+// PDF COPY DOWNLOAD
+//	@PostMapping("/download")
+//	public ResponseEntity<ByteArrayResource> download(HttpServletRequest request, HttpServletResponse response,
+//			@RequestBody DownloadModel downloadModel) throws Exception {
+//		DownloadModel pathFile = downloadService.findDownName(downloadModel.getId());
+//		File file = new File(pathFile.getPathname());
+//		Path path = Paths.get(file.getAbsolutePath());
+//		ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+//
+//		HttpHeaders header = new HttpHeaders();
+//		header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + "test");
+//
+//		return ResponseEntity.ok().headers(header).contentLength(file.length())
+//				.contentType(MediaType.parseMediaType("application/octet-stream")).body(resource);
+//
+//	}
 
 }
