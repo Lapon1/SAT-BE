@@ -5,6 +5,7 @@
 	<artifactId>SAT-Project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SAT-Project</name>
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/com.oracle.jdbc/ojdbc8 -->
 		<dependency>
@@ -60,8 +61,6 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>5.2.2</version>
 		</dependency>
-
-
 	</dependencies>
 	<build>
 		<plugins>

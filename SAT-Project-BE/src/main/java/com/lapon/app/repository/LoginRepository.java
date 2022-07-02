@@ -6,4 +6,6 @@ public interface LoginRepository {
 
 	RegisterModel verify(RegisterModel input) throws Exception;
 
+	RegisterModel verifyByProcedure(RegisterModel input) throws Exception;
+
 }

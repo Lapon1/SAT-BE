@@ -35,6 +35,25 @@ public class RegisterRepositoryImpl implements RegisterRepository {
 		return row > 0 ? 1L : 0L;
 	}
 
+	public Long insertWithProcedure(RegisterModel form) throws Exception {
+
+		StringBuilder sbSql = new StringBuilder();
+		sbSql.append(" CALL ").append(BaseNameConection.RegisterProcedure);
+		sbSql.append(" (:id ");
+		sbSql.append(" ,:fname  ");
+		sbSql.append(" ,:lname  ");
+		sbSql.append(" )");
+
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("id", 1);
+		param.put("fname", form.getFname());
+		param.put("lname", form.getLname());
+		int row;
+		row = jdbcTemplate.update(sbSql.toString(), param);
+
+		return row > 0 ? 1L : 0L;
+	}
+
 	@Override
 	public List<RegisterModel> search(String fname) throws Exception {
 		StringBuilder sql = new StringBuilder();

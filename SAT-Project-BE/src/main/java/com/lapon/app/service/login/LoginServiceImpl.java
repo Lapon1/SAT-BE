@@ -23,7 +23,7 @@ public class LoginServiceImpl implements LoginService {
 	public RegisterModel verify(RegisterModel input) throws Exception {
 
 		try {
-			return loginRepository.verify(input);
+			return loginRepository.verifyByProcedure(input);
 
 		} catch (EmptyResultDataAccessException e) {
 			return new RegisterModel();

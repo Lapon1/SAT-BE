@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lapon.app.core.controller.ResponseController;
+import com.lapon.app.core.model.ResponseVo;
 import com.lapon.app.model.RegisterModel;
 import com.lapon.app.service.login.LoginService;
 
@@ -21,15 +22,16 @@ public class LoginController extends ResponseController {
 	LoginService loginService;
 
 	@PostMapping("/verify")
-	public RegisterModel verify(HttpServletRequest request, HttpServletResponse response,
+	public ResponseVo<RegisterModel> verify(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody RegisterModel input) throws Exception {
 		RegisterModel RegisModel = new RegisterModel();
+		ResponseVo<RegisterModel> responseModel = new ResponseVo<RegisterModel>();
 		RegisModel = loginService.verify(input);
-
-		// String a = RegisModel.getFname()!=null ? "true" : "false";
-//		RegisterModel g = testGeneric(RegisModel);
-
-		return RegisModel;
-
+		if (RegisModel != null) {
+			responseModel.setHeader(initHeaderSuccess(RegisModel));
+			responseModel.setData(RegisModel);
+		}
+		return responseModel;
 	}
+
 }

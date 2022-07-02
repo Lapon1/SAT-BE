@@ -1,5 +1,9 @@
 package com.lapon.app.repository;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,9 +30,37 @@ public class LoginRepositoryImpl implements LoginRepository {
 		param.put("username", input.getUsername());
 		param.put("password", input.getPassword());
 
-		RegisterModel model = jdbcTemplate.queryForObject(sql.toString(), param, new BeanPropertyRowMapper<RegisterModel>(RegisterModel.class));
+		RegisterModel model = jdbcTemplate.queryForObject(sql.toString(), param,
+				new BeanPropertyRowMapper<RegisterModel>(RegisterModel.class));
 
- 		return model;
+		return model;
+	}
+
+	@Override
+	public RegisterModel verifyByProcedure(RegisterModel input) throws Exception {
+
+		DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+		// Getting the connection
+		String mysqlUrl = "jdbc:oracle:thin:@localhost:1521:orcl";
+		
+		Connection con = DriverManager.getConnection(mysqlUrl, "SYS AS SYSDBA", "05315099");
+
+		CallableStatement cstmt = con.prepareCall("{call FINDREGISTER(?, ? ,? )}");
+		// Setting the value for the TN parameter
+		cstmt.setString(1, input.getUsername());
+		cstmt.setString(2, input.getPassword());
+		cstmt.registerOutParameter(3, Types.VARCHAR);
+
+		// Executing the CallableStatement
+		cstmt.executeUpdate();
+		// Retrieving the values for product name, customer name and, price
+		String username = cstmt.getString(3);
+		RegisterModel model = new RegisterModel();
+		model.setUsername(username);
+		
+		
+		
+		return model;
 	}
 
 }
