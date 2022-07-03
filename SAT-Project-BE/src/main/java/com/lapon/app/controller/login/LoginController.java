@@ -27,6 +27,25 @@ public class LoginController extends ResponseController {
 		RegisterModel RegisModel = new RegisterModel();
 		ResponseVo<RegisterModel> responseModel = new ResponseVo<RegisterModel>();
 		RegisModel = loginService.verify(input);
+		int i;
+		for (i = 0; i < 5; i++) {
+			System.out.println(input.getFname());
+			System.out.println(input.getLname());
+		}
+		
+		if (RegisModel != null) {
+			responseModel.setHeader(initHeaderSuccess(RegisModel));
+			responseModel.setData(RegisModel);
+		}
+		return responseModel;
+	}
+
+	@PostMapping("/TestController")
+	public ResponseVo<RegisterModel> test(HttpServletRequest request, HttpServletResponse response,
+			@RequestBody RegisterModel input) throws Exception {
+		RegisterModel RegisModel = new RegisterModel();
+		ResponseVo<RegisterModel> responseModel = new ResponseVo<RegisterModel>();
+		RegisModel = loginService.verify(input);
 		if (RegisModel != null) {
 			responseModel.setHeader(initHeaderSuccess(RegisModel));
 			responseModel.setData(RegisModel);
