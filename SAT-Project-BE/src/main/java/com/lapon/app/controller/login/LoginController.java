@@ -45,7 +45,7 @@ public class LoginController extends ResponseController {
 		RegisterModel RegisModel = new RegisterModel();
 		RegisModel = loginService.verify(input);
 		if (RegisModel != null) {
-			logger.info("error");
+			logger.info("error1");
 			throw new Exception();
 		}
 		return RegisModel;
