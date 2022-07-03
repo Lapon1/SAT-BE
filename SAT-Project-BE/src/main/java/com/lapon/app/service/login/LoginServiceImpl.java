@@ -21,7 +21,7 @@ public class LoginServiceImpl implements LoginService {
 	@Override
 	@Transactional(readOnly = true, rollbackFor = { Exception.class })
 	public RegisterModel verify(RegisterModel input) throws Exception {
-		logger.info("start verify");
+		logger.info("start verify account");
 		try {
 			return loginRepository.verifyByProcedure(input);
 
