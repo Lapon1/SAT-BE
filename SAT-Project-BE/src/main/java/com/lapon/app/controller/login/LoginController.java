@@ -3,8 +3,6 @@ package com.lapon.app.controller.login;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +17,7 @@ import com.lapon.app.service.login.LoginService;
 @RestController
 @RequestMapping("/login")
 public class LoginController extends ResponseController {
-	private final Logger logger = LogManager.getLogger(LoginController.class);
+
 	@Autowired
 	LoginService loginService;
 
@@ -29,12 +27,6 @@ public class LoginController extends ResponseController {
 		RegisterModel RegisModel = new RegisterModel();
 		ResponseVo<RegisterModel> responseModel = new ResponseVo<RegisterModel>();
 		RegisModel = loginService.verify(input);
-		logger.info("logger");
-		int i;
-		for (i = 0; i < 5; i++) {
-			System.out.println(input.getFname());
-			System.out.println(input.getLname());
-		}
 		if (RegisModel != null) {
 			responseModel.setHeader(initHeaderSuccess(RegisModel));
 			responseModel.setData(RegisModel);
