@@ -48,7 +48,7 @@ public class LoginController extends ResponseController {
 			logger.info("error");
 			throw new Exception();
 		}
-		return RegisModel
+		return RegisModel;
 	}
 
 }
