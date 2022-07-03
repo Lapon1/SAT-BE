@@ -15,7 +15,6 @@ import com.lapon.app.core.controller.ResponseController;
 import com.lapon.app.core.model.ResponseVo;
 import com.lapon.app.model.RegisterModel;
 import com.lapon.app.service.login.LoginService;
-import com.lapon.app.service.login.LoginServiceImpl;
 
 @RestController
 @RequestMapping("/login")
