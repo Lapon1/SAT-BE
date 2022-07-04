@@ -12,6 +12,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFFont;
@@ -31,12 +33,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lapon.app.model.DownloadModel;
 import com.lapon.app.model.RegisterModel;
 import com.lapon.app.service.download.DownloadService;
+import com.lapon.app.service.login.LoginServiceImpl;
 import com.lapon.app.service.register.RegisterService;
 
 @RestController
 @RequestMapping("/register")
 public class RegisterController {
-
+	private final Logger logger = LogManager.getLogger(LoginServiceImpl.class);
+	
 	@Autowired
 	public RegisterService registerService;
 
@@ -50,7 +54,7 @@ public class RegisterController {
 	public Long RegisterOnCreate(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody RegisterModel form) throws Exception {
 		Long resp = registerService.insert(form);
-
+		logger.info("LOG VAL");
 		return resp;
 	}
 
