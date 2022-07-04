@@ -20,9 +20,9 @@ import com.lapon.app.service.login.LoginServiceImpl;
 @RestController
 @RequestMapping("/login")
 public class LoginController extends ResponseController {
-	
+
 	private final Logger logger = LogManager.getLogger(LoginServiceImpl.class);
-	
+
 	@Autowired
 	LoginService loginService;
 
@@ -45,6 +45,9 @@ public class LoginController extends ResponseController {
 		RegisterModel RegisModel = new RegisterModel();
 		RegisModel = loginService.verify(input);
 		logger.info("TEST");
+		for (int i = 0; i < 10; i++) {
+			logger.info(i);
+		}
 		return RegisModel;
 	}
 
