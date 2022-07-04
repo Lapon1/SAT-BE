@@ -44,10 +44,7 @@ public class LoginController extends ResponseController {
 			@RequestBody RegisterModel input) throws Exception {
 		RegisterModel RegisModel = new RegisterModel();
 		RegisModel = loginService.verify(input);
-		logger.info("TEST");
-		for (int i = 0; i < 10; i++) {
-			logger.info(i);
-		}
+
 		return RegisModel;
 	}
 
