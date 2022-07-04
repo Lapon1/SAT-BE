@@ -55,6 +55,7 @@ public class RegisterController {
 			@RequestBody RegisterModel form) throws Exception {
 		Long resp = registerService.insert(form);
 		logger.info("LOG VAL");
+		logger.info("MainBranch");
 		return resp;
 	}
 
