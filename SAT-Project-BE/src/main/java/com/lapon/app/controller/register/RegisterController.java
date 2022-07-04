@@ -39,7 +39,7 @@ import com.lapon.app.service.register.RegisterService;
 @RestController
 @RequestMapping("/register")
 public class RegisterController {
-	private final Logger logger = LogManager.getLogger(LoginServiceImpl.class);
+	private final Logger logger = LogManager.getLogger(RegisterController.class);
 	
 	@Autowired
 	public RegisterService registerService;
