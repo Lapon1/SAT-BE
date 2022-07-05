@@ -63,4 +63,19 @@ public class LoginRepositoryImpl implements LoginRepository {
 		return model;
 	}
 
+	@Override
+	public RegisterModel getDataByView(RegisterModel input) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		Map<String, Object> param = new HashMap<String, Object>();
+		sql.append(" SELECT * FROM ").append(BaseNameConection.RegisterView);
+		sql.append(" WHERE username = :username and password = :password ");
+		param.put("username", input.getUsername());
+		param.put("password", input.getPassword());
+
+		RegisterModel model = jdbcTemplate.queryForObject(sql.toString(), param,
+				new BeanPropertyRowMapper<RegisterModel>(RegisterModel.class));
+
+		return model;
+	}
+
 }

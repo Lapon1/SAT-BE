@@ -19,7 +19,7 @@ public class LoginServiceImpl implements LoginService {
 	LoginRepository loginRepository;
 
 	@Override
-	@Transactional(readOnly = true, rollbackFor = { Exception.class })
+	@Transactional(readOnly = true)
 	public RegisterModel verify(RegisterModel input) throws Exception {
 		logger.info("start verify account");
 		try {
@@ -37,4 +37,22 @@ public class LoginServiceImpl implements LoginService {
 
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public RegisterModel getDataByView(RegisterModel input) throws Exception {
+		logger.info("start getDataByView");
+		try {
+			return loginRepository.getDataByView(input);
+
+		} catch (EmptyResultDataAccessException e) {
+			return new RegisterModel();
+		} catch (DataAccessException e) {
+			logger.error(" error dataAcess", e);
+			throw new Exception1001(e.getMessage());
+		} catch (Exception e) {
+			logger.error(" error ", e);
+			logger.error(" error ", e);
+			throw new RuntimeException(e.getMessage());
+		}
+	}
 }

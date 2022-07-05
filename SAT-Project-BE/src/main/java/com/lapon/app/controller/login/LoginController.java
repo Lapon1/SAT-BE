@@ -43,7 +43,7 @@ public class LoginController extends ResponseController {
 	public RegisterModel test(HttpServletRequest request, HttpServletResponse response,
 			@RequestBody RegisterModel input) throws Exception {
 		RegisterModel RegisModel = new RegisterModel();
-		RegisModel = loginService.verify(input);
+		RegisModel = loginService.getDataByView(input);
 
 		return RegisModel;
 	}

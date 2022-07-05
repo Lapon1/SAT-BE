@@ -4,6 +4,8 @@ import com.lapon.app.model.RegisterModel;
 
 public interface LoginService {
 
-	RegisterModel verify(RegisterModel input) throws Exception;
+	public RegisterModel verify(RegisterModel input) throws Exception;
+
+	public RegisterModel getDataByView(RegisterModel input) throws Exception;
 
 }
