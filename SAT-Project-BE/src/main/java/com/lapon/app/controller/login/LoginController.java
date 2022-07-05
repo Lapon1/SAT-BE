@@ -44,7 +44,7 @@ public class LoginController extends ResponseController {
 			@RequestBody RegisterModel input) throws Exception {
 		RegisterModel RegisModel = new RegisterModel();
 		RegisModel = loginService.getDataByView(input);
-
+		logger.info("TestCon-05-07.");
 		return RegisModel;
 	}
 
