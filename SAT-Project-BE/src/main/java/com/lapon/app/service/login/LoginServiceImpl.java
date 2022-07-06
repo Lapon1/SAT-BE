@@ -55,4 +55,23 @@ public class LoginServiceImpl implements LoginService {
 			throw new RuntimeException(e.getMessage());
 		}
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public RegisterModel getDataByView(Long id) throws Exception {
+		logger.info("start getDataByView");
+		try {
+			return loginRepository.getDataByView(id);
+
+		} catch (EmptyResultDataAccessException e) {
+			return new RegisterModel();
+		} catch (DataAccessException e) {
+			logger.error(" error dataAcess", e);
+			throw new Exception1001(e.getMessage());
+		} catch (Exception e) {
+			logger.error(" error ", e);
+			logger.error(" error ", e);
+			throw new RuntimeException(e.getMessage());
+		}
+	}
 }

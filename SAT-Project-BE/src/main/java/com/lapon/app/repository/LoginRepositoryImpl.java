@@ -77,5 +77,19 @@ public class LoginRepositoryImpl implements LoginRepository {
 
 		return model;
 	}
+	
+	@Override
+	public RegisterModel getDataByView(Long id) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		Map<String, Object> param = new HashMap<String, Object>();
+		sql.append(" SELECT * FROM ").append(BaseNameConection.RegisterView);
+		sql.append(" WHERE id = :id ");
+		param.put("id", id);
+
+		RegisterModel model = jdbcTemplate.queryForObject(sql.toString(), param,
+				new BeanPropertyRowMapper<RegisterModel>(RegisterModel.class));
+
+		return model;
+	}
 
 }

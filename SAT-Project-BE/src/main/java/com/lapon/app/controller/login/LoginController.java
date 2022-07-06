@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +48,14 @@ public class LoginController extends ResponseController {
 		RegisModel = loginService.getDataByView(input);
 		logger.info("TestCon-05-07.");
 		return RegisModel;
+	}
+
+	@GetMapping("/get/{id}")
+	public RegisterModel getRegister(HttpServletRequest request, HttpServletResponse response,
+			@PathVariable("id") Long id) throws Exception {
+		RegisterModel registerModel = new RegisterModel();
+		loginService.getDataByView(id);
+		return registerModel;
 	}
 
 }
