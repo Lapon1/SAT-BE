@@ -10,4 +10,6 @@ public interface LoginRepository {
 
 	public RegisterModel getDataByView(RegisterModel input) throws Exception;
 
+	public RegisterModel getDataByView(Long id) throws Exception;
+
 }

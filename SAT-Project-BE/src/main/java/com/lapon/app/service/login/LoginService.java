@@ -6,6 +6,8 @@ public interface LoginService {
 
 	public RegisterModel verify(RegisterModel input) throws Exception;
 
-	public RegisterModel getDataByView(RegisterModel input) throws Exception;
+	public RegisterModel getDataByView(Long id) throws Exception;
+
+	public RegisterModel getDataByView(RegisterModel input)throws Exception;
 
 }
