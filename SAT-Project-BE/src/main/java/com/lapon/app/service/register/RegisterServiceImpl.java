@@ -23,7 +23,7 @@ public class RegisterServiceImpl implements RegisterService {
 	@Transactional(readOnly = false, rollbackFor = { Exception.class })
 	public Long insert(RegisterModel form) throws Exception {
 		try {
-			return registerRepository.insertWithProcedure(form);
+			return registerRepository.insert(form);
 		} catch (DataAccessException e) {
 			logger.error(" error dataAcess", e);
 			throw new RuntimeException(e.getMessage());
